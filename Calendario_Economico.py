@@ -36,8 +36,12 @@ def send_info():
     df_filtered['importance'] = df_filtered['importance'].replace({0: 'Medio', 1: 'Alto'})
 
     bot = Bot(token="5963451255:AAGPxyC1fAWr_m-rugp5332ljeGN8HPL_hU")
+    
+    # Calculamos las fechas de inicio y fin de la semana
+    inicio_semana = today.strftime('%d/%m/%Y')
+    fin_semana = (today + pd.offsets.Day(7)).strftime('%d/%m/%Y')
 
-    message = ""
+    message = f"Feliz inicio de semana, procedemos a actualizar las noticias para la semana {inicio_semana} a {fin_semana}\n----------------\n"
     for index, row in df_filtered.iterrows():
         flag_emoji = country_to_emoji(row['country'])
         message += f"""
@@ -45,6 +49,7 @@ def send_info():
 - Divisa: {flag_emoji} {row['country']}
 - Noticia: {row['title']}
 - Importancia: {row['importance']}
+----------------
 """
 
     bot.send_message(chat_id="-1001938210460", text=message)
