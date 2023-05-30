@@ -37,8 +37,17 @@ df_filtered['importance'] = df_filtered['importance'].replace({0: 'Medio', 1: 'A
 # Creamos el bot
 bot = Bot(token=bot_token)
 
+
+for index, row in df_filtered.iterrows():
+        message = f"""
+        - {row['date'].strftime('%d/%m/%Y')}
+        - {row['country']}
+        - {row['title']}
+        - {row['importance']}
+        """
+
 # Enviamos el DataFrame como mensaje a Telegram
-bot.send_message(chat_id=channel_id, text=str(df_filtered))
+bot.send_message(chat_id=channel_id, text=str(message))
 
 
 
