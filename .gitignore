@@ -1,3 +1,5 @@
 
 # se ignora el env
 *.env
+
+__pycache__/
