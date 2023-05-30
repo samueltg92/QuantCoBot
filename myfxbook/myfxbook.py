@@ -1,6 +1,6 @@
 import requests
 
-class Myfxbook:
+class myfxbook:
 
     base_url = 'https://www.myfxbook.com/api/'
     email = None
@@ -53,3 +53,8 @@ class Myfxbook:
     
     def get_data_daily(self, id, start, end):
         return requests.get(self.base_url + 'get-data-daily.json', params={'session': self.session, 'id': id, 'start': start, 'end': end}).json()
+
+
+# fx = Myfxbook(email = 'quantlabsmx@gmail.com', password = 'Holacomoestas0')
+# print(fx.login())
+# print(fx.get_my_accounts())
