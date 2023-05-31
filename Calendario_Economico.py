@@ -32,7 +32,7 @@ def send_info():
     df['date'] = df['date'].dt.tz_convert('America/New_York')
 
     df_filtered = df[df['importance'].isin([1])]
-    df_filtered = df_filtered[['title', 'country', 'importance', 'date']]
+    df_filtered = df_filtered[['title', 'country', 'importance', 'date', 'previous', 'forecast']]
     df_filtered['importance'] = df_filtered['importance'].replace({0: 'Medio', 1: 'Alto'})
 
     bot = Bot(token="5963451255:AAGPxyC1fAWr_m-rugp5332ljeGN8HPL_hU")
@@ -41,14 +41,16 @@ def send_info():
     inicio_semana = today.strftime('%d/%m/%Y')
     fin_semana = (today + pd.offsets.Day(7)).strftime('%d/%m/%Y')
 
-    message = f"Feliz inicio de semana, procedemos a actualizar las noticias para la semana {inicio_semana} a {fin_semana}\n----------------\n"
+    message = f"Feliz inicio de semana, procedemos a actualizar las noticias para la semana {inicio_semana} a {fin_semana}.\n**Horario de Nueva York (EST)**\n----------------"
     for index, row in df_filtered.iterrows():
         flag_emoji = country_to_emoji(row['country'])
         message += f"""
-- Fecha: {row['date'].strftime('%d/%m/%Y')}
+- Fecha: {row['date'].strftime('%d/%m/%Y - %H:%M')}
 - Divisa: {flag_emoji} {row['country']}
 - Noticia: {row['title']}
 - Importancia: {row['importance']}
+- Dato previo: {row['previous']}
+- Pronóstico: {row['forecast']}
 ----------------
 """
 
