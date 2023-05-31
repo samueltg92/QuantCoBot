@@ -1,6 +1,7 @@
 # chat id the quant company: "-1001621135988"
 # chat id prueba: "-1001938210460"
-
+# chat id InvestmentNewsEsp: "-1001419121917"
+# CalendarioEconomicoQuant_token: "5963451255:AAGPxyC1fAWr_m-rugp5332ljeGN8HPL_hU"
 
 '''El de abajo podría ser el código final, pero no lo he probado'''	
 
