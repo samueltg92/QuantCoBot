@@ -1,28 +1,51 @@
-from telegram import Bot
-from telegram import Update
-from telegram.ext import CallbackContext
-from telegram.ext import MessageHandler
-from telegram.ext import Filters
-from telegram.ext import Updater
-import time
+import requests
+import pandas as pd
+from datetime import datetime, timedelta
+import pytz
 
-TOKEN_DEL_BOT = "5963451255:AAGPxyC1fAWr_m-rugp5332ljeGN8HPL_hU"
-ID_DEL_CHAT = "-1001621135988"
-ID_DEL_CANAL = "-1001938210460"
+# replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
+apikey = "X6TLMVBZSSL8LOJG"
 
-def handle_message(update: Update, context: CallbackContext):
-    message = update.effective_message
-    if message.chat_id == ID_DEL_CHAT:
-        context.bot.forward_message(chat_id=ID_DEL_CANAL, from_chat_id=ID_DEL_CHAT, message_id=message.message_id)
+# Calculate the current time and the time one hour ago
+now = pd.Timestamp.now(pytz.utc)
+one_hour_ago = now - pd.Timedelta(hours=1)
 
-def main():
-    bot = Bot(token=TOKEN_DEL_BOT)
-    updater = Updater(token=TOKEN_DEL_BOT, use_context=True)
-    dp = updater.dispatcher
-    dp.add_handler(MessageHandler(Filters.all, handle_message))
+# Format the times
+formatted_now = now.strftime('%Y%m%dT%H%M')
+formatted_one_hour_ago = one_hour_ago.strftime('%Y%m%dT%H%M')
 
-    updater.start_polling(poll_interval=60.0)
-    updater.idle()
+topics = ["blockchain","financial_markets","economy_macro","finance","technology"]
 
-if __name__ == "__main__":
-    main()
+news_data = []
+
+def convert_datetime(x):
+    if x is not None:
+        return datetime.strptime(x, '%Y%m%dT%H%M%S')
+    else:
+        return None
+
+for topic in topics:
+
+    url = f"https://www.alphavantage.co/query?function=NEWS_SENTIMENT&topics={topic}&time_from={formatted_one_hour_ago}&time_to={formatted_now}&sort=LATEST&limit=1&apikey={apikey}"
+
+    r = requests.get(url)
+    data = r.json()
+    
+    if 'feed' in data:
+        for news_item in data['feed']:
+            news_info = {}
+            news_info['title'] = news_item.get('title', None)
+            news_info['published_time'] = convert_datetime(news_item.get('time_published', None))
+            
+            # Check if source is a dictionary
+            if isinstance(news_item.get('source', {}), dict):
+                news_info['source'] = news_item.get('source', {}).get('name', None)
+            else:
+                news_info['source'] = news_item.get('source', None)
+                
+            news_info['summary'] = news_item.get('summary', None)
+            news_data.append(news_info)
+
+# Convert to dataframe for easier manipulation
+df = pd.DataFrame(news_data)
+print(df)
