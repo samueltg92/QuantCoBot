@@ -34,7 +34,7 @@ def send_info():
 
     df_filtered = df[df['importance'].isin([1])]
     df_filtered = df_filtered[['title', 'country', 'importance', 'date', 'previous', 'forecast']]
-    df_filtered['importance'] = df_filtered['importance'].replace({0: 'Medio', 1: 'Alto'})
+    df_filtered['importance'] = df_filtered['importance'].replace({0: '* *', 1: '* * *'})
 
     bot = Bot(token="5963451255:AAGPxyC1fAWr_m-rugp5332ljeGN8HPL_hU")
     
@@ -55,7 +55,7 @@ def send_info():
 ----------------
 """
 
-    bot.send_message(chat_id="-1001621135988", text=message)
+    bot.send_message(chat_id="-1001938210460", text=message)
 
 # while True:
 #     now = datetime.now(pytz.timezone('America/New_York'))
