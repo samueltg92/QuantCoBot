@@ -1,1 +1,1 @@
-bot: python OpenAi_TelegramBot.py
+worker: python OpenAi_TelegramBot.py
