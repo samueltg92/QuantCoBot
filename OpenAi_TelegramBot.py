@@ -15,7 +15,7 @@ async def welcome(message: types.Message):
     keyboard_markup = types.InlineKeyboardMarkup()
     keyboard_markup.add(
         types.InlineKeyboardButton("Haz una pregunta", callback_data="ask_question"),
-        types.InlineKeyboardButton("Grupo de soporte", url='https://t.me/+WjvHAogG5aZiNzIx')
+        types.InlineKeyboardButton("Grupo de soporte", url='https://web.telegram.org/k/#@samuelt4')
     )
     await message.reply("¡Hola Bienvenid@!, soy QuantCoBot. ¿Qué te gustaría hacer?", reply_markup=keyboard_markup)
 
@@ -28,7 +28,7 @@ async def process_callback_button1(callback_query: types.CallbackQuery):
 async def gpt(message: types.Message):
     keyboard_markup = types.InlineKeyboardMarkup()
     keyboard_markup.add(
-        types.InlineKeyboardButton("Grupo de soporte", url='https://t.me/+WjvHAogG5aZiNzIx')
+        types.InlineKeyboardButton("Grupo de soporte", url='https://web.telegram.org/k/#@samuelt4')
     )
     try:
         response = openai.Completion.create(
